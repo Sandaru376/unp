@@ -42,11 +42,11 @@ export default function Dashboard({ goMap }) {
 
 	const maxCount = Math.max(1, ...bars.map((bar) => bar.count));
 
-	const goToProvince = (label) => {
+	const goToProvince = (label, focus) => {
 		const match = locations.find(
 			(location) => matchMapProvinceLabel(location.name) === label,
 		);
-		goMap(match?.id || null);
+		goMap(match?.id || null, { ...focus, label });
 	};
 
 	return (

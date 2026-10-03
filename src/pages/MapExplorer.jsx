@@ -3,14 +3,20 @@ import { ChevronRight, MapPin, Settings2 } from "lucide-react";
 import SriLankaMap from "../components/maps/SriLankaMap";
 import { useOrganization } from "../context/OrganizationContext";
 import { getInitials } from "../data/selectors";
-import { buildProvinceMemberCounts, matchMapProvinceLabel } from "../data/mapLabels";
+import {
+	MAP_PROVINCE_LABELS,
+	buildProvinceMemberCounts,
+	matchMapProvinceLabel,
+} from "../data/mapLabels";
 
-function MapPanel({ selectedProvince, counts, onProvince }) {
+function MapPanel({ selectedProvince, counts, details, focus, onProvince }) {
 	return (
 		<div className="card map-card">
 			<SriLankaMap
 				selectedProvince={selectedProvince}
 				counts={counts}
+				provinceDetails={details}
+				focus={focus}
 				onProvince={onProvince}
 			/>
 		</div>
@@ -273,7 +279,7 @@ export default function MapExplorer({
 	setSelectedPersonId,
 	goSetup,
 }) {
-	const { locations, people, selectors } = useOrganization();
+	const { locations, people, assignments, selectors } = useOrganization();
 
 	const locationId = nav?.locationId || null;
 	const location = locationId
@@ -281,21 +287,42 @@ export default function MapExplorer({
 		: null;
 
 	/* Keep the map highlighted for whichever map area the path touches. */
-	const selectedLabel = location
+	const locationLabel = location
 		? selectors
 				.getLocationPathNames(location.id)
 				.map((name) => matchMapProvinceLabel(name))
 				.find(Boolean) || null
 		: null;
+	const selectedLabel = locationLabel || nav?.provinceFocus?.label || null;
 
 	const counts = buildProvinceMemberCounts(people, selectors);
+	const provinceDetails = Object.fromEntries(
+		MAP_PROVINCE_LABELS.map((label) => {
+			const province = locations.find(
+				(item) => matchMapProvinceLabel(item.name) === label,
+			);
+			const locationIds = province
+				? selectors.getLocationSubtreeIds(province.id)
+				: [];
 
-	const handleProvinceClick = (label) => {
+			return [
+				label,
+				{
+					locationCount: locationIds.length,
+					assignmentCount: assignments.filter((assignment) =>
+						locationIds.includes(assignment.locationId),
+					).length,
+				},
+			];
+		}),
+	);
+
+	const handleProvinceClick = (label, focus) => {
 		const match = locations.find(
 			(item) => matchMapProvinceLabel(item.name) === label,
 		);
 
-		goMap(match?.id || null);
+		goMap(match?.id || null, { ...focus, label });
 	};
 
 	const content = location ? (
@@ -316,6 +343,8 @@ export default function MapExplorer({
 			<MapPanel
 				selectedProvince={selectedLabel}
 				counts={counts}
+				details={provinceDetails}
+				focus={nav?.provinceFocus}
 				onProvince={handleProvinceClick}
 			/>
 			<div className="map-side" key={locationId || "root"}>

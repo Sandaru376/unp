@@ -141,10 +141,7 @@ export function runSmoke() {
 		setupHtml.includes("No location types have been created yet."),
 	);
 
-	const hierarchyHtml = render(
-		"PoliticalHierarchy",
-		<PoliticalHierarchy setSelectedPersonId={noop} goSetup={noop} />,
-	);
+	
 	check(
 		"hierarchy empty state",
 		hierarchyHtml.includes("No locations have been created yet."),

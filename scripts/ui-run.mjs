@@ -454,6 +454,22 @@ try {
 		return k.length === 5 && k.join(",") === "2,4,3,2,2" ? k : false;
 	}, 6000);
 	check("dashboard counts = 2,4,3,2,2", Array.isArray(counts), String(counts));
+	await click($('[aria-label="View Western Province"]'));
+	await flush(120);
+	check(
+		"province click opens focused details",
+		text().includes("Western Province") &&
+			text().includes("Members") &&
+			text().includes("Locations") &&
+			text().includes("Assignments"),
+		text().slice(0, 240),
+	);
+	const zoomedScale = await waitFor(() => {
+		const transform = $(".rsm-zoomable-group")?.getAttribute("transform") || "";
+		const scale = Number(transform.match(/scale\(([^)]+)\)/)?.[1]);
+		return scale > 1 ? scale : false;
+	});
+	check("province map zooms in", Number(zoomedScale) > 1, String(zoomedScale));
 
 	/* 9. hierarchy page drill-down */
 	await navigate("Hierarchy");

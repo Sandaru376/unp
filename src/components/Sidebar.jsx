@@ -4,7 +4,6 @@ import {
   Map,
   Users,
   ClipboardList,
-  Network,
   Settings2,
 } from "lucide-react";
 
@@ -15,7 +14,6 @@ export const NAV_ITEMS = [
   ["people", Users, "People", "People"],
   ["assignments", ClipboardList, "Assignments", "Assign"],
   ["setup", Settings2, "Organization Setup", "Setup"],
-  ["hierarchy", Network, "Hierarchy", "Hierarchy"],
 ];
 
 export default function Sidebar({ view, onNavigate }) {
