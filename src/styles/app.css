@@ -3817,6 +3817,73 @@ tbody tr:last-child td { border-bottom: 0; }
   transform: scale(0.94);
 }
 
+.add-person-entry-table.members-entry-table {
+  min-width: 1050px;
+}
+
+.add-person-entry-table.members-entry-table thead th {
+  background: var(--green);
+  border-bottom-color: var(--green-hover);
+  color: #ffffff;
+}
+
+.add-person-entry-table.members-entry-table th:nth-child(1) { width: 27%; }
+.add-person-entry-table.members-entry-table th:nth-child(2) { width: 16%; }
+.add-person-entry-table.members-entry-table th:nth-child(3) { width: 24%; }
+.add-person-entry-table.members-entry-table th:nth-child(4) { width: 14%; }
+.add-person-entry-table.members-entry-table th:nth-child(5) { width: 13%; }
+.add-person-entry-table.members-entry-table th:last-child { width: 48px; }
+
+.member-table-field { min-width: 0; }
+.member-row-error {
+  display: block;
+  margin: 5px 0 0 32px;
+  color: var(--danger);
+  font-size: 11px;
+}
+
+.member-photo-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.member-photo-preview {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+}
+
+.member-photo-button {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: var(--hover);
+  border-radius: 7px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.member-photo-button:hover {
+  background: var(--green-tint);
+  color: var(--green);
+}
+
+.add-person-form {
+  display: block;
+  max-width: none;
+  margin: 16px 0 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.add-person-form .members-save-area .setup-error {
+  margin: 0;
+}
+
 .members-table-footer {
   display: flex;
   align-items: center;
@@ -4083,11 +4150,251 @@ tbody tr:last-child td { border-bottom: 0; }
 
 .setup-field { min-width: 0; }
 
-.setup-actions {
+.add-person-form {
+  display: block;
+  max-width: none;
+  margin: 16px 0 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--surface);
+}
+/* ---------- Person Selector ---------- */
+
+.assignment-person-combobox {
+  position: relative;
+  width: 100%;
+}
+
+/* Search field */
+.assignment-person-input {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 10px;
+
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+
+  color: var(--text-secondary);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s var(--spring);
+}
+
+.assignment-person-input:hover {
+  border-color: #c8ccc9;
+  background: #ffffff;
+}
+
+.assignment-person-input:focus-within {
+  border-color: var(--green);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(10, 143, 74, 0.12);
+}
+
+/* Search icon */
+.assignment-person-input > svg {
+  flex: 0 0 auto;
+  color: var(--text-light);
+  transition: color 0.2s ease, transform 0.2s var(--spring);
+}
+
+.assignment-person-input:focus-within > svg {
+  color: var(--green);
+  transform: scale(1.05);
+}
+
+/* Input */
+.assignment-person-input input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+
+  padding: 0;
+
+  background: transparent;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.assignment-person-input input::placeholder {
+  color: var(--text-light);
+  font-weight: 400;
+}
+
+.assignment-person-input input:hover,
+.assignment-person-input input:focus {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+/* Clear button */
+.assignment-person-clear {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  background: var(--hover);
+  color: var(--text-secondary);
+
+  border-radius: 50%;
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    transform 0.2s var(--spring);
+}
+
+.assignment-person-clear:hover {
+  background: var(--pressed);
+  color: var(--text);
+  transform: scale(1.08);
+}
+
+.assignment-person-clear:active {
+  transform: scale(0.92);
+}
+
+/* Dropdown */
+.assignment-person-options {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+
+  max-height: 250px;
+  overflow-y: auto;
+
+  padding: 6px;
+
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.10),
+    0 2px 6px rgba(0, 0, 0, 0.06);
+
+  animation: personDropdownIn 0.18s var(--ease);
+}
+
+@keyframes personDropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Person option */
+.assignment-person-option {
+  display: flex;
+  align-items: center;
+
+  min-height: 42px;
+  padding: 9px 11px;
+
+  border-radius: 7px;
+
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 550;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s var(--spring);
+}
+
+.assignment-person-option:hover {
+  background: var(--hover);
+  transform: translateX(2px);
+}
+
+.assignment-person-option[data-active="true"] {
+  background: var(--green-tint);
+  color: var(--green);
+}
+
+.assignment-person-option[aria-selected="true"] {
+  background: var(--green-tint);
+  color: var(--green);
+  font-weight: 650;
+}
+
+/* Empty result */
+.assignment-person-empty {
+  padding: 18px 12px;
+
+  color: var(--text-secondary);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Dropdown scrollbar */
+.assignment-person-options::-webkit-scrollbar {
+  width: 6px;
+}
+
+.assignment-person-options::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.assignment-person-options::-webkit-scrollbar-thumb {
+  background: #c7c9cc;
+  border-radius: 99px;
+}
+
+.assignment-person-options::-webkit-scrollbar-thumb:hover {
+  background: #a8abaf;
+}
+.setup-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: nowrap;
+  margin-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.setup-actions .btn {
+  min-width: 130px;
+  justify-content: center;
+}
+
+.setup-actions .btn.o {
+  min-width: 90px;
 }
 
 .setup-error {

@@ -65,7 +65,7 @@ export default function SriLankaMap({
         width={600}
         height={700}
         projection="geoMercator"
-        projectionConfig={{ scale: 10200, center: [80.75, 7.8] }}
+        projectionConfig={{ scale: 9200, center: [80.75, 7.88] }}
       >
         <Geographies geography={sriLankaProvinces}>
           {({ geographies }) =>

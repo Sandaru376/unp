@@ -197,6 +197,31 @@ const fillForm = async (fields) => {
 const optionValue = (select, label) =>
 	[...select.options].find((o) => norm(o.textContent) === label)?.value;
 
+const choosePerson = async (name, byKeyboard = false) => {
+	const input = $("#assignment-person");
+	await setValue(input, name);
+	const options = $$(".assignment-person-option");
+	check(
+		`${name} is searchable in the Person field`,
+		options.length === 1 && norm(options[0].textContent) === name,
+	);
+	if (byKeyboard) {
+		input.dispatchEvent(
+			new dom.window.KeyboardEvent("keydown", {
+				key: "Enter",
+				bubbles: true,
+				cancelable: true,
+			}),
+		);
+		await flush();
+		return;
+	}
+	const option = options.find(
+		(el) => norm(el.textContent) === name,
+	);
+	await click(option);
+};
+
 const kpis = () => $$(".kpi b").map((el) => norm(el.textContent));
 
 const errorLine = () => norm($(".setup-error")?.textContent ?? "");
@@ -241,6 +266,16 @@ try {
 	check(
 		"map renders with empty data",
 		document.querySelectorAll("svg.sri-lanka-map, .sri-lanka-map").length > 0,
+	);
+	check(
+		"empty defaults are seeded in localStorage",
+		[
+			"locationTypes",
+			"locations",
+			"positions",
+			"people",
+			"assignments",
+		].every((key) => dom.window.localStorage.getItem(`unp-demo:${key}`) === "[]"),
 	);
 
 	/* 2. create location types */
@@ -307,21 +342,18 @@ try {
 	}
 
 	/* 5. create people (John gets a photo) */
-	const addPerson = async (name, email, withPhoto = false) => {
-		await navigate("People");
-		if (!$("form.setup-form")) {
-			await click(find("button", "+ Add Person"));
-			await flush();
-		}
-		if (withPhoto) {
-			const picked = await pickPhoto();
-			check("photo preview appears after upload", picked === true, String(picked));
-		}
-		await fillForm({ "person-name": name, "person-email": email });
-	};
-
-	await addPerson("John Doe", "john@example.com", true);
-	await addPerson("David Perera", "david@example.com");
+	await navigate("People");
+	await click(find("button", "+ Add Person"));
+	await flush();
+	const picked = await pickPhoto();
+	check("photo preview appears after upload", picked === true, String(picked));
+	await setValue($("#person-name"), "John Doe");
+	await setValue($("#person-email"), "john@example.com");
+	await click(find("button", "Add another person"));
+	await setValue($("#person-name-2"), "David Perera");
+	await setValue($("#person-email-2"), "david@example.com");
+	await submit($("form.add-person-form"));
+	check("two people added from one table", text().includes("John Doe") && text().includes("David Perera"));
 	check("people list shows John", text().includes("John Doe"));
 	check("people list shows David", text().includes("David Perera"));
 	check("John's row shows a photo", Boolean($(".card.tw .row-photo")));
@@ -330,8 +362,8 @@ try {
 	await navigate("Assignments");
 	await click(find("button", "Create Assignment"));
 	await flush();
+	await choosePerson("John Doe", true);
 	await fillForm({
-		"assignment-person": optionValue($("#assignment-person"), "John Doe"),
 		"assignment-position": optionValue(
 			$("#assignment-position"),
 			"District Coordinator",
@@ -348,8 +380,8 @@ try {
 
 	await click(find("button", "Create Assignment"));
 	await flush();
+	await choosePerson("David Perera");
 	await fillForm({
-		"assignment-person": optionValue($("#assignment-person"), "David Perera"),
 		"assignment-position": optionValue(
 			$("#assignment-position"),
 			"Area Coordinator",
@@ -530,7 +562,7 @@ try {
 		$$("tbody tr").length >= 0 && !text().includes("Area Coordinator"),
 	);
 
-	/* 14. fresh mount resets to empty (in-memory store) */
+	/* 14. a fresh mount restores saved data */
 	appRoot.unmount();
 	await flush(60);
 	const fresh = document.createElement("div");
@@ -540,10 +572,24 @@ try {
 	await flush(150);
 	const freshText = () => norm(fresh.textContent);
 	check(
-		"fresh session starts empty",
+		"dashboard restores after a fresh mount",
 		freshText().includes("Organization Dashboard") &&
-			[...fresh.querySelectorAll(".kpi b")].every((b) => norm(b.textContent) === "0"),
+			[...fresh.querySelectorAll(".kpi b")].some((b) => norm(b.textContent) !== "0"),
 		[...fresh.querySelectorAll(".kpi b")].map((b) => norm(b.textContent)).join(","),
+	);
+	await navigate("Organization Setup");
+	await tab("Location Types");
+	check("location types restore after refresh", freshText().includes("Province"));
+	await tab("Locations");
+	check("edited location restores after refresh", freshText().includes("Kaduwela East"));
+	await tab("Positions");
+	check("positions restore after refresh", freshText().includes("District Coordinator"));
+	await navigate("People");
+	check("people restore after refresh", freshText().includes("John Doe"));
+	await navigate("Assignments");
+	check(
+		"assignments restore after refresh",
+		freshText().includes("John Doe") && freshText().includes("District Coordinator"),
 	);
 } catch (error) {
 	failed += 1;

@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Plus, Pencil, Trash2, Search, ClipboardList, Settings2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Search, ClipboardList, Settings2, X } from "lucide-react";
 import { useOrganization } from "../context/OrganizationContext";
 import ConfirmDialog from "../components/ConfirmDialog";
 
@@ -13,6 +13,130 @@ const emptyForm = () => ({
   endDate: "",
   isActive: true,
 });
+
+function PersonCombobox({ id, people, value, onChange }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const selectedPerson = people.find((person) => person.id === value);
+  const filteredPeople = people.filter((person) =>
+    person.name.toLowerCase().includes(query.trim().toLowerCase()),
+  );
+
+  const choosePerson = (person) => {
+    onChange(person.id);
+    setQuery("");
+    setIsOpen(false);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Escape") {
+      setIsOpen(false);
+      setQuery("");
+      return;
+    }
+
+    if (!filteredPeople.length) return;
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setIsOpen(true);
+      setActiveIndex((index) => Math.min(index + 1, filteredPeople.length - 1));
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setIsOpen(true);
+      setActiveIndex((index) =>
+        index < 0 ? filteredPeople.length - 1 : Math.max(index - 1, 0),
+      );
+    } else if (event.key === "Enter" && isOpen) {
+      event.preventDefault();
+      choosePerson(filteredPeople[activeIndex] || filteredPeople[0]);
+    }
+  };
+
+  return (
+    <div className="assignment-person-combobox">
+      <div className="assignment-person-input">
+        <Search size={16} aria-hidden="true" />
+        <input
+          id={id}
+          type="text"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded={isOpen}
+          aria-controls={`${id}-options`}
+          aria-activedescendant={
+            isOpen && activeIndex >= 0 && filteredPeople[activeIndex]
+              ? `${id}-option-${activeIndex}`
+              : undefined
+          }
+          autoComplete="off"
+          disabled={!people.length}
+          placeholder={people.length ? "Search people..." : "No people created yet"}
+          value={isOpen ? query : selectedPerson?.name || ""}
+          onFocus={() => {
+            setQuery("");
+            setActiveIndex(-1);
+            setIsOpen(true);
+          }}
+          onBlur={() => {
+            setIsOpen(false);
+            setQuery("");
+          }}
+          onChange={(event) => {
+            setQuery(event.target.value);
+            setActiveIndex(event.target.value ? 0 : -1);
+            onChange("");
+            setIsOpen(true);
+          }}
+          onKeyDown={handleKeyDown}
+        />
+        {selectedPerson && (
+          <button
+            className="assignment-person-clear"
+            type="button"
+            aria-label="Clear selected person"
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={() => {
+              onChange("");
+              setQuery("");
+              setActiveIndex(0);
+              setIsOpen(true);
+            }}
+          >
+            <X size={15} aria-hidden="true" />
+          </button>
+        )}
+      </div>
+
+      {isOpen && (
+        <div className="assignment-person-options" id={`${id}-options`} role="listbox">
+          {filteredPeople.length ? (
+            filteredPeople.map((person, index) => (
+              <div
+                className="assignment-person-option"
+                id={`${id}-option-${index}`}
+                key={person.id}
+                role="option"
+                aria-selected={person.id === value}
+                onMouseDown={(event) => event.preventDefault()}
+                onMouseEnter={() => setActiveIndex(index)}
+                data-active={activeIndex === index}
+                onClick={() => choosePerson(person)}
+              >
+                {person.name}
+              </div>
+            ))
+          ) : (
+            <div className="assignment-person-empty" role="status">
+              No people match “{query}”.
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Assignments({ notify = () => {}, goSetup }) {
   const {
@@ -207,20 +331,12 @@ export default function Assignments({ notify = () => {}, goSetup }) {
           <form className="setup-form" onSubmit={handleSubmit}>
             <div className="setup-field">
               <label htmlFor="assignment-person">Person</label>
-              <select
+              <PersonCombobox
                 id="assignment-person"
+                people={people}
                 value={form.personId}
-                onChange={(event) => setField("personId", event.target.value)}
-              >
-                <option value="">
-                  {people.length ? "Select person" : "No people created yet"}
-                </option>
-                {people.map((person) => (
-                  <option key={person.id} value={person.id}>
-                    {person.name}
-                  </option>
-                ))}
-              </select>
+                onChange={(value) => setField("personId", value)}
+              />
             </div>
 
             <div className="setup-field">

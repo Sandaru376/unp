@@ -15,6 +15,21 @@ import {
 	ASSIGNMENTS,
 	createSelectors,
 } from "../data";
+import { loadDemoData, saveDemoData } from "../utils/demoStorage";
+
+const DEMO_STORAGE_KEYS = {
+	locationTypes: "unp-demo:locationTypes",
+	locations: "unp-demo:locations",
+	positions: "unp-demo:positions",
+	people: "unp-demo:people",
+	assignments: "unp-demo:assignments",
+};
+
+const loadInitialData = (key, fallback) => {
+	const records = loadDemoData(DEMO_STORAGE_KEYS[key], fallback);
+	saveDemoData(DEMO_STORAGE_KEYS[key], records);
+	return records;
+};
 
 /*
  * Central organization data layer (frontend demo only).
@@ -72,13 +87,16 @@ const findDuplicate = (items, { value, scopeKey, scopeId, ignoreId }) => {
 };
 
 export function OrganizationProvider({ children }) {
-	const storeRef = useRef({
-		locationTypes: LOCATION_TYPES,
-		locations: LOCATIONS,
-		positions: POSITIONS,
-		people: PEOPLE,
-		assignments: ASSIGNMENTS,
-	});
+	const storeRef = useRef(null);
+	if (storeRef.current === null) {
+		storeRef.current = {
+			locationTypes: loadInitialData("locationTypes", LOCATION_TYPES),
+			locations: loadInitialData("locations", LOCATIONS),
+			positions: loadInitialData("positions", POSITIONS),
+			people: loadInitialData("people", PEOPLE),
+			assignments: loadInitialData("assignments", ASSIGNMENTS),
+		};
+	}
 
 	const [locationTypes, setLocationTypes] = useState(
 		storeRef.current.locationTypes,
@@ -92,6 +110,7 @@ export function OrganizationProvider({ children }) {
 
 	const write = useCallback((key, value) => {
 		storeRef.current[key] = value;
+		saveDemoData(DEMO_STORAGE_KEYS[key], value);
 
 		switch (key) {
 			case "locationTypes":
