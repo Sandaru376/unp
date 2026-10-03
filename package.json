@@ -1,0 +1,24 @@
+{
+  "name": "unp-organization-platform",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node scripts/selector-test.mjs && node scripts/ssr-run.mjs",
+    "test:ui": "node scripts/ui-run.mjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "lucide-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-simple-maps": "^5.0.5",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "jsdom": "^30.1.1"
+  }
+}
