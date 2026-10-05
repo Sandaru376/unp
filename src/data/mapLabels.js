@@ -16,7 +16,7 @@ import sriLankaProvinces from "./sriLankaProvincesGeo.js";
 const stripProvince = (value = "") =>
 	String(value)
 		.toLowerCase()
-		.replace(/\s+province$/i, "")
+		.replace(/\s*province$/i, "")
 		.replace(/\s+/g, " ")
 		.trim();
 
@@ -40,19 +40,23 @@ export const matchMapProvinceLabel = (name) => {
  * Colors the map by counting people whose assignment paths touch a
  * map-supported area. Keys must be the map's own display labels.
  */
-export const buildProvinceMemberCounts = (people = [], selectors) => {
+export const buildProvinceMemberCounts = (people = [], selectors = {}) => {
 	const counts = {};
+	const getAssignmentsForPerson = selectors.getAssignmentsForPerson?.bind(selectors);
+	const getLocationPathNames = selectors.getLocationPathNames?.bind(selectors);
+
+	if (!getAssignmentsForPerson || !getLocationPathNames) {
+		return counts;
+	}
 
 	people.forEach((person) => {
 		const labels = new Set();
 
-		selectors.getAssignmentsForPerson(person.id).forEach((assignment) => {
-			selectors.getLocationPathNames(assignment.locationId).forEach(
-				(name) => {
-					const label = matchMapProvinceLabel(name);
-					if (label) labels.add(label);
-				},
-			);
+		getAssignmentsForPerson(person.id).forEach((assignment) => {
+			getLocationPathNames(assignment.locationId).forEach((name) => {
+				const label = matchMapProvinceLabel(name);
+				if (label) labels.add(label);
+			});
 		});
 
 		labels.forEach((label) => {

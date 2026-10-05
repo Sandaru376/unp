@@ -279,11 +279,6 @@ export default function MapExplorer({
 }) {
   const { locations, people, assignments, selectors } = useOrganization();
 
-  const districtType = locationTypes.find(
-  (type) =>
-    type.name.trim().toLowerCase() === "district",
-);
-  const districtType = selectors.getLocationsByType ? null : null;
   const locationId = nav?.locationId || null;
   const location = locationId ? selectors.getLocationById(locationId) : null;
 
