@@ -4120,7 +4120,11 @@ tbody tr:last-child td { border-bottom: 0; }
   transition: background 0.2s, color 0.2s, transform 0.25s var(--spring);
 }
 
-.setup-tab:hover { background: var(--hover); color: var(--text); }
+.setup-tab:hover {
+    background: #16a34a !important;
+    color: #ffffff !important;
+    border-color: #16a34a !important;
+}
 .setup-tab:active { transform: scale(0.97); }
 .setup-tab.on { background: var(--green-tint); color: var(--green); }
 

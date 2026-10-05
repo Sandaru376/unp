@@ -29,6 +29,6 @@ export default function Topbar({ query, onSearch, onHome }) {
         </button>
         <div className="me" title="Administrator">Ad</div>
       </div>
-    </header>
+    </header> 
   );
 }
