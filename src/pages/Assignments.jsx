@@ -710,7 +710,7 @@ function SearchSelect({
                       <Check
                         size={15}
                         aria-hidden="true"
-                        style={{ color: "#16a34a", flexShrink: 0 }}
+                        style={{ color: "var(--primary)", flexShrink: 0 }}
                       />
                     )}
                   </div>
@@ -1091,7 +1091,7 @@ export default function Assignments({ notify = () => {}, goSetup }) {
                         width: 22,
                         height: 22,
                         borderRadius: "50%",
-                        background: "#16a34a",
+                        background: "var(--primary)",
                         color: "#fff",
                       }}
                     >

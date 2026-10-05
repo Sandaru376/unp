@@ -19,8 +19,8 @@
   max-width: 760px;
   overflow: visible;
   filter:
-    drop-shadow(0 0 1.5px rgba(6, 95, 50, 0.6))
-    drop-shadow(0 14px 16px rgba(10, 143, 74, 0.2));
+    drop-shadow(0 0 1.5px rgba(var(--primary-rgb), 0.55))
+    drop-shadow(0 14px 16px rgba(var(--primary-rgb), 0.2));
 }
 
 /* ---------- Provinces ---------- */
@@ -47,8 +47,8 @@
 .sri-lanka-province:focus {
   outline: none !important;
 }
-.sri-lanka-province:focus-visible { outline: none; filter: drop-shadow(0 0 4px rgba(10, 143, 74, 0.9)); }
-.sri-lanka-province.is-selected { filter: drop-shadow(0 4px 10px rgba(10, 143, 74, 0.55)); }
+.sri-lanka-province:focus-visible { outline: none; filter: drop-shadow(0 0 4px rgba(var(--primary-rgb), 0.9)); }
+.sri-lanka-province.is-selected { filter: drop-shadow(0 4px 10px rgba(var(--primary-rgb), 0.55)); }
 
 .sri-lanka-map text { animation: fadeLabel 0.8s ease 0.9s backwards; }
 @keyframes fadeLabel { from { opacity: 0; } to { opacity: 1; } }
@@ -79,14 +79,14 @@
   height: 9px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: #0a8f4a;
+  background: var(--primary);
 }
 .map-dot::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px solid #0a8f4a;
+  border: 2px solid var(--primary);
   animation: dotPing 1.8s ease-out infinite;
 }
 @keyframes dotPing { from { transform: scale(1); opacity: 0.8; } to { transform: scale(2.8); opacity: 0; } }
@@ -114,11 +114,11 @@
   width: 14px;
   height: 14px;
   border-radius: 4px;
-  border: 1px solid rgba(6, 95, 50, 0.3);
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
 }
-.sw-active { background: #97d3b2; }
-.sw-empty { background: #d3e9dd; }
-.sw-selected { background: #0a8f4a; }
+.sw-active { background: rgba(var(--primary-rgb), 0.48); }
+.sw-empty { background: var(--primary-tint); }
+.sw-selected { background: var(--primary); }
 
 .map-hover-label {
   position: absolute;
@@ -145,7 +145,7 @@
   border-left: 1px solid rgba(255, 255, 255, 0.3);
   font-style: normal;
   font-weight: 500;
-  color: #b8e6cc;
+  color: var(--primary-tint);
 }
 
 .map-selected-details {
@@ -159,7 +159,7 @@
   gap: 14px;
   padding: 10px 12px;
   background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(10, 143, 74, 0.2);
+  border: 1px solid rgba(var(--primary-rgb), 0.2);
   border-radius: 10px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   animation: labelIn 0.25s cubic-bezier(0.34, 1.4, 0.64, 1);
@@ -200,7 +200,7 @@
   cursor: pointer;
 }
 
-.map-reset-view:hover { background: #d6edde; }
+.map-reset-view:hover { background: var(--primary-tint); }
 
 @keyframes labelIn {
   from { opacity: 0; transform: translateX(-50%) translateY(8px); }
@@ -218,7 +218,7 @@
   transform: translateX(-50%);
   animation: helpIn 0.6s ease 1s backwards;
 }
-.map-help span { color: #0a8f4a; font-weight: 800; margin-right: 4px; }
+.map-help span { color: var(--primary); font-weight: 800; margin-right: 4px; }
 @keyframes helpIn { from { opacity: 0; transform: translateX(-50%) translateY(6px); } to { opacity: 1; transform: translateX(-50%); } }
 
 /* ---------- Where the map is used ---------- */

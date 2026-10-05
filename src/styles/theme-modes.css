@@ -1,0 +1,128 @@
+/* Visual modes: usual (default app.css), glass, clay */
+
+html[data-visual="glass"] body {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(var(--primary-rgb), 0.22), transparent 50%),
+    radial-gradient(900px 500px at 100% 0%, rgba(var(--primary-rgb), 0.12), transparent 45%),
+    linear-gradient(180deg, #eef2f7 0%, #e6eaef 100%);
+}
+
+html[data-visual="glass"] .topbar,
+html[data-visual="glass"] aside,
+html[data-visual="glass"] .card,
+html[data-visual="glass"] .kpi,
+html[data-visual="glass"] .pc,
+html[data-visual="glass"] .dr > section,
+html[data-visual="glass"] .bn,
+html[data-visual="glass"] .setup-item,
+html[data-visual="glass"] .setup-stat,
+html[data-visual="glass"] .sri-lanka-map-wrapper,
+html[data-visual="glass"] .map-legend,
+html[data-visual="glass"] .map-top-label,
+html[data-visual="glass"] .map-selected-details {
+  background: rgba(255, 255, 255, 0.42) !important;
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+}
+
+html[data-visual="glass"] .btn:not(.o) {
+  background: rgba(var(--primary-rgb), 0.82);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+html[data-visual="glass"] .btn.o,
+html[data-visual="glass"] .input,
+html[data-visual="glass"] select,
+html[data-visual="glass"] textarea,
+html[data-visual="glass"] .topbar-search {
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(10px);
+}
+
+html[data-visual="glass"] .nav.on,
+html[data-visual="glass"] .bn button.on {
+  background: rgba(var(--primary-rgb), 0.14) !important;
+}
+
+html[data-visual="glass"] .bd {
+  background: rgba(var(--primary-rgb), 0.16);
+}
+
+html[data-visual="clay"] body {
+  background: #e8edf2;
+}
+
+html[data-visual="clay"] {
+  --radius: 22px;
+  --surface: #e8edf2;
+}
+
+html[data-visual="clay"] .card,
+html[data-visual="clay"] .kpi,
+html[data-visual="clay"] .pc,
+html[data-visual="clay"] .dr > section,
+html[data-visual="clay"] .setup-item,
+html[data-visual="clay"] .setup-stat,
+html[data-visual="clay"] .sri-lanka-map-wrapper,
+html[data-visual="clay"] .map-legend,
+html[data-visual="clay"] .map-selected-details {
+  background: #e8edf2 !important;
+  border: none !important;
+  border-radius: 22px !important;
+  box-shadow:
+    10px 10px 20px #c5c9ce,
+    -8px -8px 18px #ffffff,
+    inset 2px 2px 4px rgba(255, 255, 255, 0.6) !important;
+}
+
+html[data-visual="clay"] .topbar,
+html[data-visual="clay"] aside,
+html[data-visual="clay"] .bn {
+  background: #e8edf2 !important;
+  box-shadow:
+    6px 6px 14px #c5c9ce,
+    -6px -6px 14px #ffffff;
+}
+
+html[data-visual="clay"] .btn:not(.o) {
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow:
+    6px 6px 12px rgba(0, 0, 0, 0.12),
+    -3px -3px 8px rgba(255, 255, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+
+html[data-visual="clay"] .btn.o,
+html[data-visual="clay"] .input,
+html[data-visual="clay"] select,
+html[data-visual="clay"] textarea,
+html[data-visual="clay"] .nav,
+html[data-visual="clay"] .topbar-search {
+  border: none !important;
+  border-radius: 14px !important;
+  background: #e8edf2 !important;
+  box-shadow:
+    inset 4px 4px 8px #c5c9ce,
+    inset -4px -4px 8px #ffffff !important;
+}
+
+html[data-visual="clay"] .nav.on,
+html[data-visual="clay"] .bn button.on {
+  background: var(--primary-tint) !important;
+  box-shadow:
+    inset 5px 5px 10px rgba(var(--primary-rgb), 0.18),
+    inset -3px -3px 8px #ffffff !important;
+}
+
+html[data-visual="clay"] .av,
+html[data-visual="clay"] .bd {
+  box-shadow:
+    4px 4px 8px #c5c9ce,
+    -3px -3px 6px #ffffff !important;
+}
+
+

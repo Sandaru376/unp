@@ -7,9 +7,14 @@
    ========================================================= */
 
 :root {
-  --green: #0a8f4a;
-  --green-hover: #087a40;
-  --green-tint: #e6f4ec;
+  --primary: #0a8f4a;
+  --primary-hover: #087a40;
+  --primary-tint: #e6f4ec;
+  --primary-rgb: 10, 143, 74;
+
+  --green: var(--primary);
+  --green-hover: var(--primary-hover);
+  --green-tint: var(--primary-tint);
 
   --background: #f0f2f5;
   --surface: #ffffff;
@@ -64,7 +69,7 @@ a { color: var(--green); text-decoration: none; cursor: pointer; }
 @keyframes popIn { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes slideRight { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: none; } }
 @keyframes dropIn { from { transform: translateY(-100%); } to { transform: none; } }
-@keyframes pulseRing { 0% { box-shadow: 0 0 0 0 rgba(10, 143, 74, 0.5); } 100% { box-shadow: 0 0 0 8px rgba(10, 143, 74, 0); } }
+@keyframes pulseRing { 0% { box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.5); } 100% { box-shadow: 0 0 0 8px rgba(var(--primary-rgb), 0); } }
 @keyframes drawerIn { from { transform: translateX(100%); } to { transform: none; } }
 @keyframes toastIn { from { opacity: 0; transform: translateY(16px) scale(0.96); } to { opacity: 1; transform: none; } }
 @keyframes growX { from { transform: scaleX(0); } to { transform: none; } }
@@ -4121,9 +4126,9 @@ tbody tr:last-child td { border-bottom: 0; }
 }
 
 .setup-tab:hover {
-    background: #16a34a !important;
+    background: var(--primary) !important;
     color: #ffffff !important;
-    border-color: #16a34a !important;
+    border-color: var(--primary) !important;
 }
 .setup-tab:active { transform: scale(0.97); }
 .setup-tab.on { background: var(--green-tint); color: var(--green); }
@@ -4999,5 +5004,6 @@ aside {
     box-shadow: 0 -8px 28px rgba(10, 143, 74, 0.12);
   }
 }
+
 
 

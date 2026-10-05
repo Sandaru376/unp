@@ -44,11 +44,11 @@ const getProvinceFocus = (label, event) => {
 };
 
 const COLORS = {
-  empty: "#d3e9dd",          // province with no members yet
-  active: "#97d3b2",         // province that has members
-  hover: "#5fc08c",
-  selected: "#0a8f4a",
-  selectedHover: "#087a40",
+  empty: "var(--primary-tint)",
+  active: "rgba(var(--primary-rgb), 0.48)",
+  hover: "rgba(var(--primary-rgb), 0.68)",
+  selected: "var(--primary)",
+  selectedHover: "var(--primary-hover)",
   border: "#ffffff",
 };
 
@@ -215,7 +215,7 @@ export default function SriLankaMap({
                     style={{
                       fontSize: 11,
                       fontWeight: 800,
-                      fill: isSelected ? "#ffffff" : "#064d29",
+                      fill: isSelected ? "#ffffff" : "var(--primary-hover)",
                       stroke: isSelected ? "none" : "rgba(255,255,255,0.75)",
                       strokeWidth: 3,
                       strokeLinejoin: "round",

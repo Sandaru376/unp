@@ -8,9 +8,11 @@ import {
   Power,
   Trash2,
   Search,
+  Palette,
 } from "lucide-react";
 import { useOrganization } from "../context/OrganizationContext";
 import ConfirmDialog from "../components/ConfirmDialog";
+import ThemeSettingsSection from "./ThemeSettingsSection";
 
 /* =========================================================
    Helpers
@@ -2325,6 +2327,7 @@ const TABS = [
   { key: "locationTypes", label: "Location Types", icon: Layers },
   { key: "locations", label: "Locations", icon: MapPin },
   { key: "positions", label: "Positions", icon: Award },
+  { key: "theme", label: "Theme", icon: Palette },
 ];
 
 export default function OrganizationSetup({ notify = () => {} }) {
@@ -2373,16 +2376,16 @@ export default function OrganizationSetup({ notify = () => {} }) {
               className={`setup-tab ${isActive ? "on" : ""}`}
               onClick={() => setTab(key)}
               style={{
-                background: isActive ? "#16a34a" : "transparent",
+                background: isActive ? "var(--primary)" : "transparent",
                 color: isActive ? "#ffffff" : "var(--text)",
                 border: isActive
-                  ? "1px solid #16a34a"
-                  : "1px solid var(--line)",
+                  ? "1px solid var(--primary)"
+                  : "1px solid var(--border)",
                 borderRadius: 10,
                 padding: "10px 18px",
                 fontWeight: isActive ? 700 : 500,
                 boxShadow: isActive
-                  ? "0 4px 12px rgba(22, 163, 74, 0.20)"
+                  ? "0 4px 12px rgba(var(--primary-rgb), 0.20)"
                   : "none",
                 transition: "all 0.2s ease",
               }}
@@ -2397,6 +2400,7 @@ export default function OrganizationSetup({ notify = () => {} }) {
       {tab === "locationTypes" && <LocationTypesSection notify={notify} />}
       {tab === "locations" && <LocationsSection notify={notify} />}
       {tab === "positions" && <PositionsSection notify={notify} />}
+      {tab === "theme" && <ThemeSettingsSection />}
     </>
   );
 }

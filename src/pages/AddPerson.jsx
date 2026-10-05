@@ -20,8 +20,8 @@ import { readPersonPhoto } from "../utils/personPhoto";
    ========================================================= */
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const DANGER = "#dc2626";
-const GREEN = "#16a34a";
+const DANGER = "var(--danger, #d93025)";
+const GREEN = "var(--primary)";
 
 const emptyPersonRow = (id, seed = {}) => ({
   id,
