@@ -967,15 +967,12 @@ export default function Assignments({ notify = () => {}, goSetup }) {
 
   return (
     <>
-      <div className="tag">Team</div>
+     
 
       <div className="setup-header">
         <div>
           <h1>Assignments</h1>
-          <p className="mu lead">
-            Connect a person, a position and a location. One person can hold
-            several assignments — each one is stored as its own record.
-          </p>
+          
         </div>
 
         <div className="setup-stats">
@@ -1018,16 +1015,7 @@ export default function Assignments({ notify = () => {}, goSetup }) {
         </div>
       )}
 
-      <div className="setup-header">
-        <div>
-          <h2>All Assignments</h2>
-        </div>
-
-        <button type="button" className="btn" onClick={openAdd}>
-          <Plus size={15} aria-hidden="true" />
-          Create Assignment
-        </button>
-      </div>
+     
 
       {/* ---------- Create assignments (multi-row popup) ---------- */}
       <BulkAddModal
@@ -1297,15 +1285,23 @@ export default function Assignments({ notify = () => {}, goSetup }) {
         </form>
       </SetupModal>
 
-      <div className="searchbar">
-        <Search size={18} aria-hidden="true" />
-        <input
-          aria-label="Search assignments"
-          placeholder="Search person, position or location…"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-      </div>
+      <div className="assignments-toolbar">
+  <div className="assignments-search">
+    <Search size={17} aria-hidden="true" />
+
+    <input
+      aria-label="Search assignments"
+      placeholder="Search person, position or location…"
+      value={query}
+      onChange={(event) => setQuery(event.target.value)}
+    />
+  </div>
+
+  <button type="button" className="btn" onClick={openAdd}>
+    <Plus size={15} aria-hidden="true" />
+    Create Assignment
+  </button>
+</div>
 
       <div className="card tw">
         <table>

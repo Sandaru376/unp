@@ -4828,7 +4828,7 @@ tbody tr:last-child td { border-bottom: 0; }
 /* Colorful backdrop so the glass has something to blur */
 body {
   background:
-    radial-gradient(circle at 12% 8%, rgba(10, 143, 74, 0.30), transparent 42%),
+    radial-gradient(circle at 12% 8%, rgba(var(--primary-rgb), 0.30), transparent 42%),
     radial-gradient(circle at 88% 18%, rgba(56, 189, 248, 0.26), transparent 42%),
     radial-gradient(circle at 50% 95%, rgba(250, 204, 21, 0.20), transparent 45%),
     var(--background);
@@ -4857,7 +4857,7 @@ body {
 .topbar-search:focus-within {
   background: rgba(255, 255, 255, 0.9);
   border-color: var(--green);
-  box-shadow: 0 0 0 3px rgba(10, 143, 74, 0.18);
+  box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.18);
   color: var(--green);
 }
 
@@ -4886,124 +4886,622 @@ aside {
     -webkit-backdrop-filter: var(--glass-blur);
     backdrop-filter: var(--glass-blur);
     border-top: 1px solid var(--glass-border);
-    box-shadow: 0 -8px 32px rgba(31, 60, 45, 0.10);
+    box-shadow: 0 -8px 32px rgba(var(--primary-rgb), 0.10);
   }
 }
-
 
 
 /* =========================================================
-   GREEN GLASS NAVBAR + WHITE BACKGROUND (paste at very end)
+   THEME-AWARE VISUAL MODES
+   Usual / Glass / Clay
    ========================================================= */
 
-:root {
-  --glass-green: rgba(10, 143, 74, 0.82);
-  --glass-white: rgba(255, 255, 255, 0.72);
-  --glass-border-light: rgba(255, 255, 255, 0.45);
-  --glass-blur: blur(18px) saturate(170%);
+
+/* =========================================================
+   USUAL MODE
+   Clean solid UI with stronger theme presence
+   ========================================================= */
+
+html[data-visual="usual"] body {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--primary) 5%, var(--background)),
+      var(--background)
+    );
 }
 
-/* White page with a very soft green glow so the glass has something to blur */
-body {
+/* Make the navbar clearly separated from the page */
+html[data-visual="usual"] .topbar {
   background:
-    radial-gradient(circle at 8% 0%, rgba(10, 143, 74, 0.10), transparent 40%),
-    radial-gradient(circle at 95% 10%, rgba(10, 143, 74, 0.07), transparent 40%),
-    #ffffff;
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--primary) 10%, var(--surface)),
+      color-mix(in srgb, var(--primary) 5%, var(--surface))
+    );
+  border-bottom: 2px solid color-mix(in srgb, var(--primary) 22%, var(--divider));
+  box-shadow:
+    0 2px 8px rgba(var(--primary-rgb), 0.10);
+}
+
+/* Slight theme tint for sidebar */
+html[data-visual="usual"] aside {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--primary) 4%, var(--surface)),
+      var(--surface)
+    );
+  border-right: 1px solid color-mix(in srgb, var(--primary) 15%, var(--divider));
+}
+
+/* Cards stay solid, but receive a very subtle theme edge */
+html[data-visual="usual"] .card,
+html[data-visual="usual"] .kpi,
+html[data-visual="usual"] .pc,
+html[data-visual="usual"] .dr > section,
+html[data-visual="usual"] .setup-item,
+html[data-visual="usual"] .setup-stat,
+html[data-visual="usual"] .sri-lanka-map-wrapper,
+html[data-visual="usual"] .map-legend,
+html[data-visual="usual"] .map-selected-details {
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--primary) 8%, var(--border));
+}
+
+/* Theme-colored topbar controls */
+html[data-visual="usual"] .topbar-search {
+  background: color-mix(in srgb, var(--primary) 5%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--primary) 12%, var(--border));
+}
+
+html[data-visual="usual"] .icon-btn {
+  background: color-mix(in srgb, var(--primary) 6%, var(--surface));
+}
+
+html[data-visual="usual"] .icon-btn:hover {
+  background: color-mix(in srgb, var(--primary) 12%, var(--surface));
+}
+
+/* Active navigation becomes more visible */
+html[data-visual="usual"] .nav.on,
+html[data-visual="usual"] .bn button.on {
+  background: var(--primary-tint);
+  color: var(--primary);
+}
+
+html[data-visual="usual"] .nav.on .nav-ico {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Buttons use the selected theme */
+html[data-visual="usual"] .btn:not(.o) {
+  background: var(--primary);
+}
+
+html[data-visual="usual"] .btn:not(.o):hover {
+  background: var(--primary-hover);
+}
+
+
+/* =========================================================
+   GLASSMORPHISM
+   Theme-aware glass
+   ========================================================= */
+
+html[data-visual="glass"] body {
+  background:
+    radial-gradient(
+      circle at 12% 8%,
+      rgba(var(--primary-rgb), 0.18),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 88% 18%,
+      rgba(var(--primary-rgb), 0.10),
+      transparent 42%
+    ),
+    var(--background);
+
   background-attachment: fixed;
 }
 
-/* ---------- Top navbar: green glass ---------- */
-.topbar {
-  background: var(--glass-green);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  border-bottom: 1px solid var(--glass-border-light);
-  box-shadow: 0 8px 28px rgba(10, 143, 74, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+/* Navbar */
+html[data-visual="glass"] .topbar {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(var(--primary-rgb), 0.18),
+      rgba(255, 255, 255, 0.48)
+    ) !important;
+
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+
+  border-bottom: 1px solid rgba(var(--primary-rgb), 0.20);
+
+  box-shadow:
+    0 8px 28px rgba(var(--primary-rgb), 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
-/* Logo and profile bubble: white on green */
-.logo,
-.me {
-  background: #ffffff;
-  color: var(--green);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+/* Sidebar */
+html[data-visual="glass"] aside {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(var(--primary-rgb), 0.08),
+      rgba(255, 255, 255, 0.45)
+    ) !important;
+
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+
+  border-right: 1px solid rgba(var(--primary-rgb), 0.15);
+
+  box-shadow:
+    6px 0 24px rgba(var(--primary-rgb), 0.08);
 }
 
-/* Title text */
-.topbar-title b {
+/* Glass cards */
+html[data-visual="glass"] .card,
+html[data-visual="glass"] .kpi,
+html[data-visual="glass"] .pc,
+html[data-visual="glass"] .dr > section,
+html[data-visual="glass"] .setup-item,
+html[data-visual="glass"] .setup-stat,
+html[data-visual="glass"] .sri-lanka-map-wrapper,
+html[data-visual="glass"] .map-legend,
+html[data-visual="glass"] .map-top-label,
+html[data-visual="glass"] .map-selected-details {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(var(--primary-rgb), 0.06),
+      rgba(255, 255, 255, 0.48)
+    ) !important;
+
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+
+  border: 1px solid rgba(var(--primary-rgb), 0.12);
+
+  box-shadow:
+    0 8px 32px rgba(var(--primary-rgb), 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+/* Glass navbar search */
+html[data-visual="glass"] .topbar-search {
+  background: rgba(255, 255, 255, 0.30) !important;
+  border: 1px solid rgba(var(--primary-rgb), 0.18);
+}
+
+html[data-visual="glass"] .topbar-search:focus-within {
+  border-color: var(--primary);
+  box-shadow:
+    0 0 0 3px rgba(var(--primary-rgb), 0.16);
+}
+
+/* Glass buttons */
+html[data-visual="glass"] .btn:not(.o) {
+  background: rgba(var(--primary-rgb), 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+/* Glass active navigation */
+html[data-visual="glass"] .nav.on,
+html[data-visual="glass"] .bn button.on {
+  background: rgba(var(--primary-rgb), 0.14) !important;
+  color: var(--primary);
+}
+
+html[data-visual="glass"] .nav.on .nav-ico {
+  background: rgba(var(--primary-rgb), 0.85);
+  color: #fff;
+}
+
+/* Glass badges */
+html[data-visual="glass"] .bd {
+  background: rgba(var(--primary-rgb), 0.14);
+  color: var(--primary);
+}
+
+
+/* =========================================================
+   CLAYMORPHISM
+   Theme-aware clay
+   ========================================================= */
+
+html[data-visual="clay"] body {
+  background:
+    color-mix(in srgb, var(--primary) 4%, #e8edf2);
+}
+
+/* Clay surface */
+html[data-visual="clay"] {
+  --radius: 22px;
+}
+
+/* Clay cards */
+html[data-visual="clay"] .card,
+html[data-visual="clay"] .kpi,
+html[data-visual="clay"] .pc,
+html[data-visual="clay"] .dr > section,
+html[data-visual="clay"] .setup-item,
+html[data-visual="clay"] .setup-stat,
+html[data-visual="clay"] .sri-lanka-map-wrapper,
+html[data-visual="clay"] .map-legend,
+html[data-visual="clay"] .map-selected-details {
+  background: color-mix(in srgb, var(--primary) 3%, #e8edf2) !important;
+  border: none !important;
+  border-radius: 22px !important;
+
+  box-shadow:
+    10px 10px 20px color-mix(in srgb, var(--primary) 12%, #c5c9ce),
+    -8px -8px 18px #ffffff,
+    inset 2px 2px 4px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Clay navbar */
+html[data-visual="clay"] .topbar {
+  background:
+    color-mix(in srgb, var(--primary) 7%, #e8edf2) !important;
+
+  border-bottom: none;
+
+  box-shadow:
+    6px 6px 14px color-mix(in srgb, var(--primary) 12%, #c5c9ce),
+    -6px -6px 14px #ffffff;
+}
+
+/* Clay sidebar */
+html[data-visual="clay"] aside {
+  background:
+    color-mix(in srgb, var(--primary) 5%, #e8edf2) !important;
+
+  border-right: none;
+
+  box-shadow:
+    6px 0 14px color-mix(in srgb, var(--primary) 10%, #c5c9ce);
+}
+
+/* Clay buttons */
+html[data-visual="clay"] .btn:not(.o) {
+  background: var(--primary);
+  border: none !important;
+  border-radius: 16px !important;
+
+  box-shadow:
+    6px 6px 12px rgba(0, 0, 0, 0.12),
+    -3px -3px 8px rgba(255, 255, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Clay active navigation */
+html[data-visual="clay"] .nav.on,
+html[data-visual="clay"] .bn button.on {
+  background: var(--primary-tint) !important;
+  color: var(--primary);
+
+  box-shadow:
+    inset 5px 5px 10px rgba(var(--primary-rgb), 0.18),
+    inset -3px -3px 8px #ffffff !important;
+}
+
+/* Clay avatar/badge accents */
+html[data-visual="clay"] .av,
+html[data-visual="clay"] .bd {
+  background: var(--primary-tint);
+  color: var(--primary);
+}
+
+html[data-visual="clay"] .bd::before {
+  background: var(--primary);
+}
+
+/* =========================================================
+   THEME COLORED NAVBAR
+   Whole navbar follows selected theme color
+   ========================================================= */
+
+/* USUAL */
+html[data-visual="usual"] .topbar {
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      color-mix(in srgb, var(--primary) 88%, #000000)
+    ) !important;
+
+  border-bottom: none !important;
+
+  box-shadow:
+    0 6px 20px rgba(var(--primary-rgb), 0.28);
+
   color: #ffffff;
 }
-.topbar-title small {
-  color: rgba(255, 255, 255, 0.85);
-}
 
-/* Search box */
-.topbar-search {
-  background: rgba(255, 255, 255, 0.22);
-  border: 1px solid var(--glass-border-light);
-  color: rgba(255, 255, 255, 0.9);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
-}
-.topbar-search input {
+/* GLASS */
+html[data-visual="glass"] .topbar {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(var(--primary-rgb), 0.92),
+      rgba(var(--primary-rgb), 0.72)
+    ) !important;
+
+  backdrop-filter: blur(18px) saturate(170%);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28) !important;
+
+  box-shadow:
+    0 8px 28px rgba(var(--primary-rgb), 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+
   color: #ffffff;
 }
-.topbar-search input::placeholder {
-  color: rgba(255, 255, 255, 0.8);
+
+/* CLAY */
+html[data-visual="clay"] .topbar {
+  background:
+    var(--primary) !important;
+
+  border: none !important;
+
+  box-shadow:
+    6px 6px 14px rgba(var(--primary-rgb), 0.28),
+    -4px -4px 10px rgba(255, 255, 255, 0.35);
+
+  color: #ffffff;
 }
-.topbar-search:hover {
-  background: rgba(255, 255, 255, 0.32);
+
+
+/* =========================================================
+   NAVBAR CONTENT
+   Keep text/icons readable on colored navbar
+   ========================================================= */
+
+html[data-visual="usual"] .topbar,
+html[data-visual="glass"] .topbar,
+html[data-visual="clay"] .topbar {
+  color: #ffffff;
 }
-.topbar-search:focus-within {
-  background: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
-  color: var(--green);
+
+/* Title */
+html[data-visual="usual"] .topbar-title b,
+html[data-visual="glass"] .topbar-title b,
+html[data-visual="clay"] .topbar-title b {
+  color: #ffffff !important;
 }
-.topbar-search:focus-within input {
+
+html[data-visual="usual"] .topbar-title small,
+html[data-visual="glass"] .topbar-title small,
+html[data-visual="clay"] .topbar-title small {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+
+/* =========================================================
+   NAVBAR SEARCH
+   Slightly transparent so it belongs to the colored navbar
+   ========================================================= */
+
+html[data-visual="usual"] .topbar-search,
+html[data-visual="glass"] .topbar-search,
+html[data-visual="clay"] .topbar-search {
+  background: rgba(255, 255, 255, 0.16) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  color: #ffffff !important;
+}
+
+html[data-visual="usual"] .topbar-search input,
+html[data-visual="glass"] .topbar-search input,
+html[data-visual="clay"] .topbar-search input {
+  color: #ffffff !important;
+}
+
+html[data-visual="usual"] .topbar-search input::placeholder,
+html[data-visual="glass"] .topbar-search input::placeholder,
+html[data-visual="clay"] .topbar-search input::placeholder {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+html[data-visual="usual"] .topbar-search:hover,
+html[data-visual="glass"] .topbar-search:hover,
+html[data-visual="clay"] .topbar-search:hover {
+  background: rgba(255, 255, 255, 0.23) !important;
+}
+
+
+/* =========================================================
+   NAVBAR ICON BUTTONS
+   ========================================================= */
+
+html[data-visual="usual"] .topbar .icon-btn,
+html[data-visual="glass"] .topbar .icon-btn,
+html[data-visual="clay"] .topbar .icon-btn {
+  background: rgba(255, 255, 255, 0.16) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  color: #ffffff !important;
+}
+
+html[data-visual="usual"] .topbar .icon-btn:hover,
+html[data-visual="glass"] .topbar .icon-btn:hover,
+html[data-visual="clay"] .topbar .icon-btn:hover {
+  background: rgba(255, 255, 255, 0.28) !important;
+}
+
+
+/* =========================================================
+   LOGO + PROFILE
+   ========================================================= */
+
+html[data-visual="usual"] .topbar .logo,
+html[data-visual="glass"] .topbar .logo,
+html[data-visual="clay"] .topbar .logo,
+html[data-visual="usual"] .topbar .me,
+html[data-visual="glass"] .topbar .me,
+html[data-visual="clay"] .topbar .me {
+  background: #ffffff !important;
+  color: var(--primary) !important;
+  border: none;
+}
+
+
+/* =========================================================
+   DEMO BADGE
+   ========================================================= */
+
+html[data-visual="usual"] .topbar .demo,
+html[data-visual="glass"] .topbar .demo,
+html[data-visual="clay"] .topbar .demo {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+}
+
+html[data-visual="usual"] .topbar .demo::before,
+html[data-visual="glass"] .topbar .demo::before,
+html[data-visual="clay"] .topbar .demo::before {
+  background: #ffffff !important;
+}
+
+
+/* =========================================================
+   ASSIGNMENTS TOOLBAR
+   Search + Create Assignment
+   ========================================================= */
+
+.assignments-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.assignments-search {
+  position: relative;
+  width: min(420px, 100%);
+  flex: 0 1 420px;
+}
+
+.assignments-search svg {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.assignments-search input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px 0 38px;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  background: var(--surface);
   color: var(--text);
-}
-.topbar-search:focus-within input::placeholder {
-  color: var(--text-light);
+
+  outline: none;
+  box-sizing: border-box;
 }
 
-/* Icon buttons */
-.icon-btn {
-  background: rgba(255, 255, 255, 0.22);
-  border: 1px solid var(--glass-border-light);
-  color: #ffffff;
-}
-.icon-btn:hover {
-  background: rgba(255, 255, 255, 0.4);
+.assignments-search input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.12);
 }
 
-/* Demo pill */
-.demo {
-  background: rgba(255, 255, 255, 0.22);
-  color: #ffffff;
-}
-.demo::before {
-  background: #ffffff;
+.assignments-toolbar .btn {
+  height: 42px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
-/* ---------- Sidebar: white glass with green accents ---------- */
-aside {
-  background: var(--glass-white);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  border-right: 1px solid rgba(10, 143, 74, 0.12);
-  box-shadow: 6px 0 24px rgba(10, 143, 74, 0.08);
-}
 
-/* ---------- Mobile bottom nav: white glass ---------- */
-@media (max-width: 860px) {
-  .bn {
-    background: var(--glass-white);
-    -webkit-backdrop-filter: var(--glass-blur);
-    backdrop-filter: var(--glass-blur);
-    border-top: 1px solid rgba(10, 143, 74, 0.12);
-    box-shadow: 0 -8px 28px rgba(10, 143, 74, 0.12);
+/* Mobile */
+@media (max-width: 700px) {
+  .assignments-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .assignments-search {
+    width: 100%;
+    flex: none;
+  }
+
+  .assignments-toolbar .btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 
 
+/* =========================================================
+   ORGANIZATION SETUP HEADER
+   Title left + navigation beside it
+   ========================================================= */
+
+.organization-setup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.organization-setup-title {
+  flex: 0 0 auto;
+}
+
+.organization-setup-title h1 {
+  margin: 0;
+}
+
+.organization-setup-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.organization-setup-tabs .setup-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+/* Smaller screens */
+@media (max-width: 900px) {
+  .organization-setup-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .organization-setup-tabs {
+    justify-content: flex-start;
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .organization-setup-tabs {
+    gap: 6px;
+  }
+
+  .organization-setup-tabs .setup-tab {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
 

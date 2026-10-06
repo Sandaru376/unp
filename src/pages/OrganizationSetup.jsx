@@ -2335,8 +2335,6 @@ export default function OrganizationSetup({ notify = () => {} }) {
 
   return (
     <>
-      <div className="tag">Administration</div>
-
       <div
         className="setup-header"
         style={{ justifyContent: "center", textAlign: "center" }}
@@ -2350,11 +2348,6 @@ export default function OrganizationSetup({ notify = () => {} }) {
           }}
         >
           <h1>Set Up Organization</h1>
-
-          <p className="mu lead">
-            Define the structure of your organization by creating location
-            types, locations and positions.
-          </p>
         </div>
       </div>
 

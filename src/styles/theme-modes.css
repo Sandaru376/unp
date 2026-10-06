@@ -2,9 +2,19 @@
 
 html[data-visual="glass"] body {
   background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(var(--primary-rgb), 0.22), transparent 50%),
-    radial-gradient(900px 500px at 100% 0%, rgba(var(--primary-rgb), 0.12), transparent 45%),
-    linear-gradient(180deg, #eef2f7 0%, #e6eaef 100%);
+    radial-gradient(
+      circle at 12% 8%,
+      rgba(var(--primary-rgb), 0.18),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 88% 18%,
+      rgba(var(--primary-rgb), 0.10),
+      transparent 42%
+    ),
+    var(--background);
+
+  background-attachment: fixed;
 }
 
 html[data-visual="glass"] .topbar,
@@ -126,3 +136,205 @@ html[data-visual="clay"] .bd {
 }
 
 
+/* =========================================================
+   FINAL THEME-AWARE NAVBAR
+   Glassmorphism + Claymorphism
+   Whole navbar follows selected theme color
+   ========================================================= */
+
+/* =========================================================
+   GLASSMORPHISM NAVBAR
+   Strong theme color + glass effect
+   ========================================================= */
+
+html[data-visual="glass"] .topbar {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(var(--primary-rgb), 0.90),
+      rgba(var(--primary-rgb), 0.68)
+    ) !important;
+
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.30) !important;
+
+  box-shadow:
+    0 8px 30px rgba(var(--primary-rgb), 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+
+  color: #ffffff !important;
+}
+
+/* Glass navbar brand */
+html[data-visual="glass"] .topbar-brand {
+  color: #ffffff !important;
+}
+
+html[data-visual="glass"] .topbar-title b {
+  color: #ffffff !important;
+}
+
+html[data-visual="glass"] .topbar-title small {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+/* Glass search */
+html[data-visual="glass"] .topbar-search {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.30) !important;
+  color: #ffffff !important;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+html[data-visual="glass"] .topbar-search input {
+  color: #ffffff !important;
+}
+
+html[data-visual="glass"] .topbar-search input::placeholder {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+html[data-visual="glass"] .topbar-search:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Glass navbar buttons */
+html[data-visual="glass"] .topbar .icon-btn {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.30) !important;
+  color: #ffffff !important;
+}
+
+html[data-visual="glass"] .topbar .icon-btn:hover {
+  background: rgba(255, 255, 255, 0.30) !important;
+}
+
+/* Glass logo/profile */
+html[data-visual="glass"] .topbar .logo,
+html[data-visual="glass"] .topbar .me {
+  background: #ffffff !important;
+  color: var(--primary) !important;
+}
+
+/* Glass demo badge */
+html[data-visual="glass"] .topbar .demo {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+}
+
+html[data-visual="glass"] .topbar .demo::before {
+  background: #ffffff !important;
+}
+
+
+/* =========================================================
+   CLAYMORPHISM NAVBAR
+   Strong theme color + clay effect
+   ========================================================= */
+
+html[data-visual="clay"] .topbar {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--primary) 88%, #ffffff),
+      var(--primary)
+    ) !important;
+
+  border: none !important;
+
+  box-shadow:
+    8px 8px 18px rgba(var(--primary-rgb), 0.30),
+    -6px -6px 16px rgba(255, 255, 255, 0.45),
+    inset 0 2px 3px rgba(255, 255, 255, 0.25),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.12);
+
+  color: #ffffff !important;
+}
+
+/* Clay navbar brand */
+html[data-visual="clay"] .topbar-brand {
+  color: #ffffff !important;
+}
+
+html[data-visual="clay"] .topbar-title b {
+  color: #ffffff !important;
+}
+
+html[data-visual="clay"] .topbar-title small {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+/* Clay search */
+html[data-visual="clay"] .topbar-search {
+  background:
+    color-mix(in srgb, var(--primary) 35%, #ffffff) !important;
+
+  border: none !important;
+
+  color: #ffffff !important;
+
+  box-shadow:
+    inset 4px 4px 8px rgba(var(--primary-rgb), 0.28),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.40) !important;
+}
+
+html[data-visual="clay"] .topbar-search input {
+  color: #ffffff !important;
+}
+
+html[data-visual="clay"] .topbar-search input::placeholder {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+/* Clay navbar buttons */
+html[data-visual="clay"] .topbar .icon-btn {
+  background:
+    color-mix(in srgb, var(--primary) 35%, #ffffff) !important;
+
+  border: none !important;
+
+  color: #ffffff !important;
+
+  box-shadow:
+    4px 4px 8px rgba(var(--primary-rgb), 0.25),
+    -3px -3px 7px rgba(255, 255, 255, 0.40),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.20);
+}
+
+html[data-visual="clay"] .topbar .icon-btn:hover {
+  background:
+    color-mix(in srgb, var(--primary) 45%, #ffffff) !important;
+
+  transform: scale(1.06);
+}
+
+/* Clay logo/profile */
+html[data-visual="clay"] .topbar .logo,
+html[data-visual="clay"] .topbar .me {
+  background: #ffffff !important;
+  color: var(--primary) !important;
+
+  box-shadow:
+    3px 3px 7px rgba(var(--primary-rgb), 0.22),
+    -2px -2px 5px rgba(255, 255, 255, 0.45);
+}
+
+/* Clay demo badge */
+html[data-visual="clay"] .topbar .demo {
+  background:
+    color-mix(in srgb, var(--primary) 30%, #ffffff) !important;
+
+  color: #ffffff !important;
+
+  box-shadow:
+    inset 2px 2px 4px rgba(var(--primary-rgb), 0.18),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.30);
+}
+
+html[data-visual="clay"] .topbar .demo::before {
+  background: #ffffff !important;
+}
